@@ -1,11 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import PkmnCard from '../PkmnCard/PkmnCard.js'
 import Grid from '@mui/material/Grid'
 
-const Overview = () => {
-
-  const cards = ["Misty", "Weedle", "Mudkip"];
+const Overview = ({cardData}) => {
 
   return (
     <div>
@@ -13,9 +10,9 @@ const Overview = () => {
       Cards
     </h2>
     <Grid container spacing={2}>
-      {cards.map(card => (
-          <Grid item xs={6}>
-            <PkmnCard/>
+      {cardData.map((card, i) => (
+          <Grid item xs={6} key={i}>
+            <PkmnCard card={card} key={i}/>
           </Grid>
       ))}
     </Grid>
