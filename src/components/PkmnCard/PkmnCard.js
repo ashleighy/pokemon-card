@@ -2,17 +2,13 @@ import React from 'react';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import { Add, Delete, Star } from '@mui/icons-material';
 
 import './PkmnCard.css';
 
-
-const PkmnCard = ({card}) => {
-  console.log(card);
+const PkmnCard = ({card, passNewWishListtoParent}) => {
   return (
     <Card className="card">
       <CardActionArea>
@@ -37,7 +33,7 @@ const PkmnCard = ({card}) => {
         <Button size="small" color="primary" title="Remove card">
           <Delete/>
         </Button>
-        <Button size="small" color="primary" title="Add card to wishlist">
+        <Button onClick={() => passNewWishListtoParent({card})} size="small" color="primary" title="Add card to wishlist">
           <Star/>
         </Button>
       </CardActions>

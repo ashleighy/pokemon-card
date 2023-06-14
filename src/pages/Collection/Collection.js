@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 
 const Collection = () => (
@@ -8,8 +7,5 @@ const Collection = () => (
   </div>
 );
 
-Collection.propTypes = {};
-
-Collection.defaultProps = {};
 
 export default Collection;

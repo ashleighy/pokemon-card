@@ -1,15 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import Overview from '../../components/Overview/Overview.js';
 
-
-const Wishlist = () => (
+const Wishlist = ({wishListData, passNewWishListtoParent}) => (
   <div>
-    Wishlist Component
+    <h1>Wishlist</h1>
+    <Overview cardData={wishListData || []} passNewWishListtoParent={passNewWishListtoParent}/>
   </div>
+
 );
-
-Wishlist.propTypes = {};
-
-Wishlist.defaultProps = {};
 
 export default Wishlist;

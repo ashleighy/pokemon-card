@@ -12,8 +12,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { BrowserRouter as Router, Link as RouterLink } from "react-router-dom";
-import Link from '@mui/material/Link';
+import { Link as RouterLink } from "react-router-dom";
 
 const SearchBar = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -57,7 +56,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Search({ childToParent }) {
+export default function Search({ passSearchtoParent }) {
 
   const [inputValue, setInputValue] = useState('');
   const [anchorEl, setAnchorEl] = useState('');
@@ -123,7 +122,7 @@ export default function Search({ childToParent }) {
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
             />
-            <Button color="inherit" onClick={() => childToParent(inputValue)}> Search </Button>
+            <Button color="inherit" onClick={() => passSearchtoParent(inputValue)}> Search </Button>
           </SearchBar>
         </Toolbar>
       </AppBar>

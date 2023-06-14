@@ -2,22 +2,30 @@ import { useState, useEffect } from 'react';
 import axios from "axios";
 import './App.css';
 import Search from './components/Search/Search.js';
-import Overview from './components/Overview/Overview.js';
 import Wishlist from './pages/Wishlist/Wishlist.js';
+import Home from './pages/Home/Home.js';
 import Collection from './pages/Collection/Collection.js';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { BrowserRouter as Router, Routes, Route }
   from 'react-router-dom';
-let defaultCardData = require('./defaultCardData.json');
 
 function App() {
 
   const [searchData, setSearchData] = useState('');
   const [cardData, setCardData] = useState('');
+  const [wishListData, setWishListData] = useState([]);
+  const [ownedData, setOwnedData] = useState('');
 
-  const childToParent = (childdata) => {
+
+  const passSearchtoParent = (childdata) => {
     setSearchData(childdata);
+  }
+
+  const passNewWishListtoParent = (childdata) => {
+    console.log('yeah', childdata.card);
+    setWishListData([...wishListData, childdata.card]);
+    console.log(wishListData);
   }
 
   useEffect(() => {
@@ -44,14 +52,14 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Search childToParent={childToParent} />
+        <Search passSearchtoParent={passSearchtoParent} />
         <Box component="span" m={1}>
           <Container maxWidth="sm">
 
             <Routes>
-              <Route exact path='/' element={<Overview cardData={cardData || defaultCardData} />} />
-              <Route path='/wishlist' element={<Wishlist />} />
-              <Route path='/collection' element={<Collection />} />
+              <Route exact path='/' element={<Home cardData={cardData} passNewWishListtoParent={passNewWishListtoParent}/>} />
+              <Route path='/wishlist' element={<Wishlist wishListData={wishListData} />} />
+              <Route path='/collection' element={<Collection ownedData={ownedData}/>} />
             </Routes>
           </Container>
         </Box>
