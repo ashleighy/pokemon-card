@@ -1,9 +1,10 @@
 import React from 'react';
+import Overview from '../../components/Overview/Overview.js';
 
-
-const Collection = () => (
+const Collection = ({ownedData, passNewOwnedtoParent}) => (
   <div>
-    Collection Component
+    <h1>My Collection</h1>
+    <Overview cardData={ownedData || []} passNewOwnedtoParent={passNewOwnedtoParent}/>
   </div>
 );
 

@@ -14,18 +14,27 @@ function App() {
 
   const [searchData, setSearchData] = useState('');
   const [cardData, setCardData] = useState('');
-  const [wishListData, setWishListData] = useState([]);
-  const [ownedData, setOwnedData] = useState('');
+  const [wishListData, setWishListData] = useState(localStorage.getItem('wishListData') ? JSON.parse(localStorage.getItem('wishListData')) : []);
+  const [ownedData, setOwnedData] = useState(localStorage.getItem('ownedData') ? JSON.parse(localStorage.getItem('ownedData')) : []);
 
+  useEffect(() => {
+    localStorage.setItem('wishListData', JSON.stringify(wishListData));
+  }, [wishListData]);
+
+  useEffect(() => {
+    localStorage.setItem('ownedData', JSON.stringify(ownedData));
+  }, [ownedData]);
 
   const passSearchtoParent = (childdata) => {
     setSearchData(childdata);
   }
 
   const passNewWishListtoParent = (childdata) => {
-    console.log('yeah', childdata.card);
     setWishListData([...wishListData, childdata.card]);
-    console.log(wishListData);
+  }
+
+  const passNewOwnedtoParent = (childdata) => {
+    setOwnedData([...ownedData, childdata.card]);
   }
 
   useEffect(() => {
@@ -36,8 +45,8 @@ function App() {
       axios
         .get(`${API_URL}?name=${searchData}`)
         .then(resp => {
-          setCardData(resp);
-          console.log("resp", resp);
+          setCardData(resp.data.cards);
+          console.log("resp", resp.data.cards);
         })
         .catch(err => {
           console.error(err);
@@ -57,9 +66,9 @@ function App() {
           <Container maxWidth="sm">
 
             <Routes>
-              <Route exact path='/' element={<Home cardData={cardData} passNewWishListtoParent={passNewWishListtoParent}/>} />
+              <Route exact path='/' element={<Home cardData={cardData} passNewWishListtoParent={passNewWishListtoParent} passNewOwnedtoParent={passNewOwnedtoParent}/>} />
               <Route path='/wishlist' element={<Wishlist wishListData={wishListData} />} />
-              <Route path='/collection' element={<Collection ownedData={ownedData}/>} />
+              <Route path='/collection' element={<Collection ownedData={ownedData} />} />
             </Routes>
           </Container>
         </Box>

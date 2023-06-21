@@ -5,16 +5,24 @@ import CardActions from '@mui/material/CardActions';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import { Add, Delete, Star } from '@mui/icons-material';
+import { useLocation } from 'react-router-dom'
+
 
 import './PkmnCard.css';
 
-const PkmnCard = ({card, passNewWishListtoParent}) => {
+const PkmnCard = ({card, passNewWishListtoParent, passNewOwnedtoParent}) => {
+
+  function HeaderView() {
+    const location = useLocation();
+    return location.pathname;
+  }
+
   return (
     <Card className="card">
       <CardActionArea>
         <CardMedia
           className="media"
-          image={card.images.small}
+          image={card.imageUrl}
           title={card.name}
         />
         {/* <CardContent>
@@ -27,15 +35,20 @@ const PkmnCard = ({card, passNewWishListtoParent}) => {
         </CardContent> */}
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary" title="Add card to owned">
+        {HeaderView() === '/' &&<Button onClick={() => passNewOwnedtoParent({card})} size="small" color="primary" title="Add card to owned">
           <Add/>
         </Button>
+        }
+        {HeaderView() !== '/' &&
         <Button size="small" color="primary" title="Remove card">
           <Delete/>
         </Button>
-        <Button onClick={() => passNewWishListtoParent({card})} size="small" color="primary" title="Add card to wishlist">
-          <Star/>
-        </Button>
+        }
+        {HeaderView() === '/' &&
+          <Button onClick={() => passNewWishListtoParent({card})} size="small" color="primary" title="Add card to wishlist">
+            <Star/>
+          </Button>
+        }
       </CardActions>
     </Card>
   );
