@@ -10,7 +10,7 @@ import { useLocation } from 'react-router-dom'
 
 import './PkmnCard.css';
 
-const PkmnCard = ({card, passNewWishListtoParent, passNewOwnedtoParent}) => {
+const PkmnCard = ({card, passNewWishListtoParent, passNewOwnedtoParent, passRemoveCard}) => {
 
   function HeaderView() {
     const location = useLocation();
@@ -25,14 +25,6 @@ const PkmnCard = ({card, passNewWishListtoParent, passNewOwnedtoParent}) => {
           image={card.imageUrl}
           title={card.name}
         />
-        {/* <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {card.name}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-          {card.flavorText}
-          </Typography>
-        </CardContent> */}
       </CardActionArea>
       <CardActions>
         {HeaderView() === '/' &&<Button onClick={() => passNewOwnedtoParent({card})} size="small" color="primary" title="Add card to owned">
@@ -40,7 +32,7 @@ const PkmnCard = ({card, passNewWishListtoParent, passNewOwnedtoParent}) => {
         </Button>
         }
         {HeaderView() !== '/' &&
-        <Button size="small" color="primary" title="Remove card">
+        <Button onClick={() => {passRemoveCard({card})}} size="small" color="primary" title="Remove card">
           <Delete/>
         </Button>
         }

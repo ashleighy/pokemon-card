@@ -7,7 +7,7 @@ import Home from './pages/Home/Home.js';
 import Collection from './pages/Collection/Collection.js';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { BrowserRouter as Router, Routes, Route }
+import { Routes, Route, useLocation }
   from 'react-router-dom';
 
 function App() {
@@ -16,6 +16,7 @@ function App() {
   const [cardData, setCardData] = useState('');
   const [wishListData, setWishListData] = useState(localStorage.getItem('wishListData') ? JSON.parse(localStorage.getItem('wishListData')) : []);
   const [ownedData, setOwnedData] = useState(localStorage.getItem('ownedData') ? JSON.parse(localStorage.getItem('ownedData')) : []);
+  const location = useLocation();
 
   useEffect(() => {
     localStorage.setItem('wishListData', JSON.stringify(wishListData));
@@ -36,6 +37,20 @@ function App() {
   const passNewOwnedtoParent = (childdata) => {
     setOwnedData([...ownedData, childdata.card]);
   }
+
+  const passRemoveCard = (childData) => {
+    if(location.pathname === '/wishlist') {
+      setWishListData(oldValues => {
+        return oldValues.filter(card => card !== childData.card)
+      })
+    }
+    if(location.pathname === '/collection') {
+      setOwnedData(oldValues => {
+        return oldValues.filter(card => card !== childData.card)
+      })
+    }
+  }
+
 
   useEffect(() => {
 
@@ -60,19 +75,16 @@ function App() {
 
   return (
     <div className="App">
-      <Router>
         <Search passSearchtoParent={passSearchtoParent} />
         <Box component="span" m={1}>
           <Container maxWidth="sm">
-
             <Routes>
               <Route exact path='/' element={<Home cardData={cardData} passNewWishListtoParent={passNewWishListtoParent} passNewOwnedtoParent={passNewOwnedtoParent}/>} />
-              <Route path='/wishlist' element={<Wishlist wishListData={wishListData} />} />
+              <Route path='/wishlist' element={<Wishlist wishListData={wishListData} passRemoveCard={passRemoveCard} />} />
               <Route path='/collection' element={<Collection ownedData={ownedData} />} />
             </Routes>
           </Container>
         </Box>
-      </Router>
     </div>
   );
 }
