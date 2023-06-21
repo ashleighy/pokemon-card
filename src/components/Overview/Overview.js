@@ -8,7 +8,7 @@ const Overview = ({cardData, passNewWishListtoParent, passNewOwnedtoParent, pass
     <Grid container spacing={2}>
       
       {cardData.map((card, i) => (
-          <Grid item xs={6} key={i}>
+          <Grid item xs={6} md={3} key={i}>
             <PkmnCard card={card} key={i} passNewWishListtoParent={passNewWishListtoParent} passNewOwnedtoParent={passNewOwnedtoParent} passRemoveCard={passRemoveCard}/>
           </Grid>
       ))}

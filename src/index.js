@@ -4,12 +4,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
+import { SnackbarProvider } from "./services/Snackbar/index.js"
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+    <SnackbarProvider SnackbarProps={{ autoHideDuration: 7000 }}>
+    <App />
+    </SnackbarProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

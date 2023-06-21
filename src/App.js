@@ -5,10 +5,10 @@ import Search from './components/Search/Search.js';
 import Wishlist from './pages/Wishlist/Wishlist.js';
 import Home from './pages/Home/Home.js';
 import Collection from './pages/Collection/Collection.js';
-import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { Routes, Route, useLocation }
   from 'react-router-dom';
+import { useSnackbar } from './services/Snackbar/index.js'
 
 function App() {
 
@@ -17,6 +17,7 @@ function App() {
   const [wishListData, setWishListData] = useState(localStorage.getItem('wishListData') ? JSON.parse(localStorage.getItem('wishListData')) : []);
   const [ownedData, setOwnedData] = useState(localStorage.getItem('ownedData') ? JSON.parse(localStorage.getItem('ownedData')) : []);
   const location = useLocation();
+  const snackbar = useSnackbar();
 
   useEffect(() => {
     localStorage.setItem('wishListData', JSON.stringify(wishListData));
@@ -32,10 +33,14 @@ function App() {
 
   const passNewWishListtoParent = (childdata) => {
     setWishListData([...wishListData, childdata.card]);
+    snackbar.showMessage(`${childdata.card.name} was added to your wishlist`
+    );
   }
 
   const passNewOwnedtoParent = (childdata) => {
     setOwnedData([...ownedData, childdata.card]);
+    snackbar.showMessage(`${childdata.card.name} was added to your owned list`
+    );
   }
 
   const passRemoveCard = (childData) => {
@@ -49,6 +54,8 @@ function App() {
         return oldValues.filter(card => card !== childData.card)
       })
     }
+    snackbar.showMessage(`${childData.card.name} was removed from the list`
+    );
   }
 
 
@@ -62,29 +69,29 @@ function App() {
         .then(resp => {
           setCardData(resp.data.cards);
           console.log("resp", resp.data.cards);
+          snackbar.showMessage(`${resp.data.cards.length} cards were found matching the term '${searchData}' `);
         })
         .catch(err => {
           console.error(err);
+          snackbar.showMessage(`there was an error fetching the card data`);
         });
     }
     if (!searchData) {
       return;
     }
     return getMons(searchData);
-  }, [searchData]);
+  }, [searchData, snackbar]);
 
   return (
     <div className="App">
         <Search passSearchtoParent={passSearchtoParent} />
-        <Box component="span" m={1}>
-          <Container maxWidth="sm">
+          <Container maxWidth="lg">
             <Routes>
               <Route exact path='/' element={<Home cardData={cardData} passNewWishListtoParent={passNewWishListtoParent} passNewOwnedtoParent={passNewOwnedtoParent}/>} />
               <Route path='/wishlist' element={<Wishlist wishListData={wishListData} passRemoveCard={passRemoveCard} />} />
-              <Route path='/collection' element={<Collection ownedData={ownedData} />} />
+              <Route path='/collection' element={<Collection ownedData={ownedData} passRemoveCard={passRemoveCard} />} />
             </Routes>
           </Container>
-        </Box>
     </div>
   );
 }
