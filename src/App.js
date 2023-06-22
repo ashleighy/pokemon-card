@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from "axios";
 import './App.css';
 import Search from './components/Search/Search.js';
@@ -58,29 +58,31 @@ function App() {
     );
   }
 
-
-  useEffect(() => {
+  const getMons = useCallback((searchData) => {
 
     let API_URL = 'https://api.pokemontcg.io/v1/cards';
 
-    function getMons(searchData) {
-      axios
-        .get(`${API_URL}?name=${searchData}`)
-        .then(resp => {
-          setCardData(resp.data.cards);
-          console.log("resp", resp.data.cards);
-          snackbar.showMessage(`${resp.data.cards.length} cards were found matching the term '${searchData}' `);
-        })
-        .catch(err => {
-          console.error(err);
-          snackbar.showMessage(`there was an error fetching the card data`);
-        });
-    }
     if (!searchData) {
       return;
+    } else {
+      axios
+      .get(`${API_URL}?name=${searchData}`)
+      .then(resp => {
+        setCardData(resp.data.cards);
+        console.log("resp", resp.data.cards);
+        snackbar.showMessage(`${resp.data.cards.length} cards were found matching the term '${searchData}' `);
+      })
+      .catch(err => {
+        console.error(err);
+        snackbar.showMessage(`there was an error fetching the card data`);
+      });
     }
+  }, [snackbar])
+ 
+
+  useEffect(() => {
     return getMons(searchData);
-  }, [searchData, snackbar]);
+  }, [searchData, getMons]);
 
   return (
     <div className="App">
