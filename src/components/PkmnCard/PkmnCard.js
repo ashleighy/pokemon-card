@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardActions from '@mui/material/CardActions';
 import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
+import { IconButton } from '@mui/material';
 import { Add, Delete, Star } from '@mui/icons-material';
 import { useLocation } from 'react-router-dom'
 
@@ -27,19 +27,19 @@ const PkmnCard = ({card, passNewWishListtoParent, passNewOwnedtoParent, passRemo
         />
       </CardActionArea>
       <CardActions>
-        {HeaderView() === '/' &&<Button onClick={() => passNewOwnedtoParent({card})} size="small" color="primary" title="Add card to owned">
+        {HeaderView() === '/' &&<IconButton onClick={() => passNewOwnedtoParent({card})} color="primary" title="Add card to owned">
           <Add/>
-        </Button>
+        </IconButton>
         }
         {HeaderView() !== '/' &&
-        <Button onClick={() => {passRemoveCard({card})}} size="small" color="primary" title="Remove card">
+        <IconButton onClick={() => {passRemoveCard({card})}} color="primary" title="Remove card">
           <Delete/>
-        </Button>
+        </IconButton>
         }
         {HeaderView() === '/' &&
-          <Button onClick={() => passNewWishListtoParent({card})} size="small" color="primary" title="Add card to wishlist">
+          <IconButton onClick={() => passNewWishListtoParent({card})} color="primary" title="Add card to wishlist">
             <Star/>
-          </Button>
+          </IconButton>
         }
       </CardActions>
     </Card>

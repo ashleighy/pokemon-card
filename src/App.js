@@ -6,8 +6,8 @@ import Wishlist from './pages/Wishlist/Wishlist.js';
 import Home from './pages/Home/Home.js';
 import Collection from './pages/Collection/Collection.js';
 import Container from '@mui/material/Container';
-import { Routes, Route, useLocation }
-  from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
+  
 import { useSnackbar } from './services/Snackbar/index.js'
 
 function App() {

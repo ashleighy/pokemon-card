@@ -7,11 +7,10 @@ import Box from '@mui/material/Box';
 const Overview = ({cardData, passNewWishListtoParent, passNewOwnedtoParent, passRemoveCard}) => {
 
   let [page, setPage] = useState(1);
-  const PER_PAGE = 8;
+  const PER_PAGE = 12;
 
   const count = Math.ceil(cardData.length / PER_PAGE);
   const data = usePagination(cardData, PER_PAGE);
-  console.log(data);
   const handleChange = (e, p) => {
     setPage(p);
     data.jump(p);
